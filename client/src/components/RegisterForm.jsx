@@ -16,7 +16,21 @@ function RegisterForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData); // ersätta senare med ett API-anrop
+    // console.log(formData); // ersätta senare med ett API-anrop
+    fetch("http://localhost:3001/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Server response:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   return (
