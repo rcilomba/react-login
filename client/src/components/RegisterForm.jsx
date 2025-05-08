@@ -7,6 +7,8 @@ function RegisterForm() {
     password: "",
   });
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -16,7 +18,8 @@ function RegisterForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(formData); // ersätta senare med ett API-anrop
+    console.log("skickar...");
+
     fetch("http://localhost:3001/register", {
       method: "POST",
       headers: {
@@ -26,10 +29,16 @@ function RegisterForm() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("Server response:", data);
+        if (data.error) {
+          setErrorMessage(data.error);
+        } else {
+          setErrorMessage("");
+          console.log("Server response:", data);
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
+        setErrorMessage("Något gick fel. Försök igen.");
       });
   };
 
@@ -62,6 +71,9 @@ function RegisterForm() {
       <button type="submit" className="bg-blue-500 text-white px-4 py-2">
         Registrera
       </button>
+
+      {/* Felmeddelandet visas här om det finns ett fel */}
+      {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
     </form>
   );
 }
