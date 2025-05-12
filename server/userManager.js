@@ -6,16 +6,20 @@ class UserManager {
     this.loggedInUser = null;
   }
 
-  register(username, password) {
+  register(username, password, email) {
     if (this.users.find((user) => user.username === username)) {
       return "Username already exists.";
+    }
+
+    if (this.users.find((user) => user.email === email)) {
+      return "Email already exists.";
     }
 
     if (!this.isValidPassword(password)) {
       return "Password does not meet security requirements.";
     }
 
-    const newUser = new User(username, password);
+    const newUser = new User(username, password, email);
     this.users.push(newUser);
     return newUser;
   }

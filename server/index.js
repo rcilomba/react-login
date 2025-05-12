@@ -1,7 +1,9 @@
+console.log("SERVER STARTAR");
+
 const express = require("express");
 const cors = require("cors");
 const UserManager = require("./userManager");
-const UserDatabase = require("./userDatabase");
+const UserDatabase = require("./userDatabase"); // ✅ Se till att den importeras korrekt
 
 const app = express();
 const PORT = 3001;
@@ -10,16 +12,19 @@ const PORT = 3001;
 app.use(cors());
 app.use(express.json());
 
+// Skapa en delad instans av UserManager och ladda användare från users.json
 const userManager = new UserManager();
+userManager.users = UserDatabase.loadUsers();
 
-// Ladda användare från fil -när servern startas
-const savedUsers = UserDatabase.loadUsers();
-userManager.users = savedUsers;
+const changePasswordRoute = require("./routes/changePassword")(
+  userManager,
+  UserDatabase
+);
+app.use("/change-password", changePasswordRoute);
 
-// Registrera en ny användare
 app.post("/register", (req, res) => {
-  const { username, password } = req.body;
-  const result = userManager.register(username, password);
+  const { username, password, email } = req.body;
+  const result = userManager.register(username, password, email);
 
   if (typeof result === "string") {
     return res.status(400).json({ error: result });
@@ -29,7 +34,6 @@ app.post("/register", (req, res) => {
   res.status(201).json({ message: "User registered successfully" });
 });
 
-// Logga in en användare
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
   const result = userManager.login(username, password);
@@ -41,7 +45,6 @@ app.post("/login", (req, res) => {
   res.status(200).json({ message: "Login successful" });
 });
 
-// Logga ut en användare
 app.post("/logout", (req, res) => {
   userManager.logout();
   res.status(200).json({ message: "Logout successful" });
@@ -49,5 +52,5 @@ app.post("/logout", (req, res) => {
 
 // Starta servern
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`✅ Server running on http://localhost:${PORT}`);
 });
