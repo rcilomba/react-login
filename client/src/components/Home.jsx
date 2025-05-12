@@ -21,7 +21,6 @@ function Home({ setIsLoggedIn }) {
     setErrorMessage("");
     setSuccessMessage("");
 
-    // Bekräfta att "nytt lösenord" matchar "bekräfta nytt lösenord"
     if (
       changePasswordData.newPassword !== changePasswordData.confirmNewPassword
     ) {
@@ -29,7 +28,14 @@ function Home({ setIsLoggedIn }) {
       return;
     }
 
-    // Gör API-anropet - anpassa endpoint och logik efter vad servern förväntar sig
+    console.log(
+      "Skickar data till servern:",
+      JSON.stringify({
+        currentPassword: changePasswordData.currentPassword,
+        newPassword: changePasswordData.newPassword,
+      })
+    );
+
     fetch("http://localhost:3001/change-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -61,6 +67,7 @@ function Home({ setIsLoggedIn }) {
   return (
     <div className="max-w-md mx-auto mt-10 text-center">
       <h1 className="text-2xl font-bold">Hej, du är inloggad! 👋</h1>
+
       <button
         onClick={() => setIsLoggedIn(false)}
         className="bg-red-500 text-white px-4 py-2 mt-4"
