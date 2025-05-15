@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install client dependencies
         run: |
           cd client
           npm install
@@ -35,7 +35,5 @@ jobs:
           nohup node index.js &
         shell: bash
 
-      - name: Run Cypress tests
-        run: |
-          cd client
-          npx cypress run
+      - name: Run Cypress tests (from root)
+        run: npx cypress run
