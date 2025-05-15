@@ -3,7 +3,7 @@ describe("Registrera användare", () => {
     cy.visit("http://localhost:5173");
 
     // Fyll i formuläret
-    cy.get('input[name="username"]').type("testuser123");
+    cy.get('input[name="username"]').first().type("testuser123");
     cy.get('input[name="email"]').type("test@example.com");
     cy.get('input[name="password"]').type("Test1234");
 
