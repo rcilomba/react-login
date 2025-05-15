@@ -45,6 +45,7 @@ function RegisterForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto mt-10">
       <input
+        id="register-username"
         type="text"
         name="username"
         placeholder="Användarnamn"
@@ -53,6 +54,7 @@ function RegisterForm() {
         className="w-full border p-2"
       />
       <input
+        id="register-email"
         type="email"
         name="email"
         placeholder="E-post"
@@ -61,6 +63,7 @@ function RegisterForm() {
         className="w-full border p-2"
       />
       <input
+        id="register-password"
         type="password"
         name="password"
         placeholder="Lösenord"
@@ -68,7 +71,11 @@ function RegisterForm() {
         onChange={handleChange}
         className="w-full border p-2"
       />
-      <button type="submit" className="bg-blue-500 text-white px-4 py-2">
+      <button
+        id="register-btn"
+        type="submit"
+        className="bg-blue-500 text-white px-4 py-2"
+      >
         Registrera
       </button>
 
